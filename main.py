@@ -1,6 +1,4 @@
-from optical_parameters import Optical_parameter
-from optical_parameters import Inverse_optical_parameter
-from pinhole_system import Pinhole_system
+from Module import *
 
 test1 = Optical_parameter(50,20,1000)
 print(test1.aov_function())

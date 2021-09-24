@@ -1,8 +1,59 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+class Optical_parameter:
+    def __init__(self, focal, f_number, distance_object, sensor_size_height = 6.6, sensor_size_width = 8.8, confusion_circle = 0.03):
+        self.focal = focal
+        self.f_number = f_number
+        self.distance_object = distance_object
+        self.sensor_size_height = sensor_size_height
+        self.sensor_size_width = sensor_size_width
+        self.confusion_circle = confusion_circle
 
-def aov_function(focal, sensor_size_height = 6.6, sensor_size_width = 8.8):  #6.6x8.8mm2, 2/3inch sensor format GH3
+    def aov_function(self): 
+        aov_height = np.degrees(2*np.arctan(self.sensor_size_height/(2*self.focal)))
+        aov_width = np.degrees(2*np.arctan(self.sensor_size_width/(2*self.focal)))
+        return np.round(aov_height,2) , np.round(aov_width,2)
+    
+    def Depth_Of_Field(self):
+        Hyperfocal = self.focal**2 / (self.f_number * self.confusion_circle)
+        if self.distance_object < Hyperfocal:
+            DOF_=2 * Hyperfocal * self.distance_object**2 / (Hyperfocal**2-self.distance_object**2)
+            DN= Hyperfocal*self.distance_object/(Hyperfocal+self.distance_object)
+            DF=Hyperfocal*self.distance_object/(Hyperfocal-self.distance_object)
+            return np.round(Hyperfocal, 2), np.round(DOF_, 2), np.round(DN, 2), np.round(DF, 2)
+        else:
+            DN= Hyperfocal*self.distance_object/(Hyperfocal+self.distance_object)
+            print('The depth of field is infinite')
+            return np.round(Hyperfocal, 2), np.round(DN, 2)
+
+
+class Inverse_optical_parameter:
+    def __init__(self, aov, DOF, first_plane, second_plane, sensor_size = 6.6, confusion_circle = 0.03):
+        self.aov = aov
+        self.DOF = DOF
+        self.first_plane = first_plane
+        self.second_plane = second_plane
+        self.sensor_size = sensor_size
+        self.confusion_circle = confusion_circle
+    def focal_function(self):
+        focal = self.sensor_size/(2*np.tan(np.radians(self.aov)/2))
+        return np.round(focal,1)
+    def F_number(self):
+        F_number = self.focal_function()**2 * self.DOF / (2*self.confusion_circle * self.first_plane * self.second_plane)
+        return np.round(F_number, 1)
+
+
+'''test1 = Optical_parameter(50,20,1000)
+
+print(test1.Depth_Of_Field())
+
+test2 = Inverse_optical_parameter(7.55, 509.64, 806.45, 1315.79)
+print(test2.focal_function())
+print(test2.F_number())'''
+
+
+'''def aov_function(focal, sensor_size_height = 6.6, sensor_size_width = 8.8):  #6.6x8.8mm2, 2/3inch sensor format GH3
     aov_height = np.degrees(2*np.arctan(sensor_size_height/(2*focal)))
     aov_width = np.degrees(2*np.arctan(sensor_size_width/(2*focal)))
     return np.round(aov_height,2) , np.round(aov_width,2)
@@ -34,9 +85,9 @@ def pinhole_model(x_object, y_object, z_object, focal):
     return   float(image_matrix[0]) / scale_factor,  float(image_matrix[1]) / scale_factor, scale_factor
 
 pinhole = pinhole_model(80, 70, 1000, 50)
-print(pinhole)
+print(pinhole)'''
 
-angle_view = aov_function(50)
+'''angle_view = aov_function(50)
 print(angle_view)
 
 focal_50 = focal_function(7.55)
@@ -46,7 +97,7 @@ DOF_ouverture20 = Depth_Of_Field(50, 20, 1000)
 print(DOF_ouverture20)
 
 aperture_50 = F_number(50, 509.34, 806.45, 1315.79)
-print(aperture_50)
+print(aperture_50)'''
 
 '''
 list_focal =[18,24,35,55,70,100,135,200,250] #focal en mm

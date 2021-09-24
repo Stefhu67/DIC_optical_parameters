@@ -1,2 +1,2 @@
-from .optical_parameters import *
-from .pinhole_system import *
+from .deck import *
+from .optics import *

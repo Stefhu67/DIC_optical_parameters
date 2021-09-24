@@ -6,7 +6,7 @@ class Pinhole_system:
         self.focal = focal
     def pinhole_model(self):
         P = np.array([[self.focal, 0, 0, 0],[0, self.focal, 0, 0],[0, 0, 1, 0]])
-        Object_coordinates = np.array([[self.Object_position[0]], [self.Object_position[1]], [self.Object_position[2]], [1]])
+        Object_coordinates = np.array([[float(self.Object_position[0])], [float(self.Object_position[1])], [float(self.Object_position[2])], [1]])
         image_matrix = P.dot(Object_coordinates)
         scale_factor = float(image_matrix[2])
         return   [float(image_matrix[0]) / scale_factor,  float(image_matrix[1]) / scale_factor, scale_factor]

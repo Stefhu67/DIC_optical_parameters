@@ -1,0 +1,18 @@
+Lens_data:
+  focal_mm: 50
+  f_number: 20
+  object_distance_mm: 1000
+
+Geometrical_data:
+  angle_of_view_deg: 7.55
+  object_distance_mm: 1000
+  first_sharp_plane_mm: 806.45
+  second_sharp_plane_mm: 1315.79
+
+Camera_data:
+  sensor_size_height_mm: 6.6
+  sensor_size_width_mm: 8.8
+  confusion_circle_mm: 0.03
+
+Object_data:
+  Object_position: [8, 7, 10]

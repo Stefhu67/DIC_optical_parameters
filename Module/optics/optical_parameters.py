@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Optical_parameter:
-    def __init__(self, focal, f_number, distance_object, sensor_size_height = 6.6, sensor_size_width = 8.8, confusion_circle = 0.03):
+    def __init__(self, focal, f_number, distance_object, sensor_size_height, sensor_size_width, confusion_circle):
         self.focal = focal
         self.f_number = f_number
         self.distance_object = distance_object
@@ -29,9 +29,8 @@ class Optical_parameter:
 
 
 class Inverse_optical_parameter:
-    def __init__(self, aov, DOF, first_plane, second_plane, sensor_size = 6.6, confusion_circle = 0.03):
+    def __init__(self, aov, first_plane, second_plane, sensor_size, confusion_circle):
         self.aov = aov
-        self.DOF = DOF
         self.first_plane = first_plane
         self.second_plane = second_plane
         self.sensor_size = sensor_size
@@ -40,7 +39,7 @@ class Inverse_optical_parameter:
         focal = self.sensor_size/(2*np.tan(np.radians(self.aov)/2))
         return np.round(focal,1)
     def F_number(self):
-        F_number = self.focal_function()**2 * self.DOF / (2*self.confusion_circle * self.first_plane * self.second_plane)
+        F_number = self.focal_function()**2 * (self.second_plane-self.first_plane)/ (2*self.confusion_circle * self.first_plane * self.second_plane)
         return np.round(F_number, 1)
 
 

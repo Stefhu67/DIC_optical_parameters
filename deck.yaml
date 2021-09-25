@@ -10,9 +10,9 @@ Geometrical_data:
   second_sharp_plane_mm: 1315.79
 
 Camera_data:
-  sensor_size_height_mm: 6.6
-  sensor_size_width_mm: 8.8
+  sensor_size_mm: [6.6, 8.8]
   confusion_circle_mm: 0.03
+  resolution: [2048, 2448]
 
 Object_data:
-  Object_position: [8, 7, 10]
+  Object_position: [66, 66, 1000]

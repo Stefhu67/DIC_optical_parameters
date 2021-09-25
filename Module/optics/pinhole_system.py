@@ -1,15 +1,24 @@
 import numpy as np
 
 class Pinhole_system:
-    def __init__(self, Object_position, focal):
+    def __init__(self, Object_position, focal, Scale_pixel_unit, t_sensor):
         self.Object_position = Object_position
         self.focal = focal
+        self.Scale_pixel_unit = Scale_pixel_unit
+        self.t_sensor = t_sensor
+
     def pinhole_model(self):
         P = np.array([[self.focal, 0, 0, 0],[0, self.focal, 0, 0],[0, 0, 1, 0]])
         Object_coordinates = np.array([[float(self.Object_position[0])], [float(self.Object_position[1])], [float(self.Object_position[2])], [1]])
         image_matrix = P.dot(Object_coordinates)
         scale_factor = float(image_matrix[2])
         return   [float(image_matrix[0]) / scale_factor,  float(image_matrix[1]) / scale_factor, scale_factor]
+
+    def Trans_image_to_sensor(self):
+        A= np.array([[self.Scale_pixel_unit[0], 0, -self.Scale_pixel_unit[0] * self.t_sensor[0]], [0, self.Scale_pixel_unit[1], - self.Scale_pixel_unit[1] * self.t_sensor[1]], [0, 0, 1]])
+        Image_coordinates = np.array([[self.pinhole_model()[0]], [self.pinhole_model()[1]], [1]])
+        sensor_matrix = A.dot(Image_coordinates)
+        return np.round(float(sensor_matrix[0]),0), np.round(float(sensor_matrix[1]),0)
 
 # 1. world coordinates to object coordinates -> x_object, y_object, z_object
 
@@ -22,41 +31,6 @@ class Pinhole_system:
 a =Trans_world_to_object(1,2,3,1,1,1,1,1,1,4,1,1,2,1,1)
 print(a[0], a[1], a[2])'''
 
-# 2. pinhole system model: object coordinates to image coordinates -> x_image, y_image, scale_factor
-
-'''def pinhole_model(x_object, y_object, z_object, focal):
-    P = np.array([[focal, 0, 0, 0],[0, focal, 0, 0],[0, 0, 1, 0]])
-    Object_coordinates = np.array([[x_object], [y_object], [z_object], [1]])
-    image_matrix = P.dot(Object_coordinates)
-    scale_factor = float(image_matrix[2])
-    return   float(image_matrix[0]) / scale_factor,  float(image_matrix[1]) / scale_factor, scale_factor
-
-b = pinhole_model(a[0], a[1], a[2], 50)
-
-print(b[0], b[1], b[2])'''
-
-'''def pinhole_model(Object_position, focal):
-    P = np.array([[focal, 0, 0, 0],[0, focal, 0, 0],[0, 0, 1, 0]])
-    Object_coordinates = np.array([[Object_position[0]], [Object_position[1]], [Object_position[2]], [1]])
-    image_matrix = P.dot(Object_coordinates)
-    scale_factor = float(image_matrix[2])
-    return   [float(image_matrix[0]) / scale_factor,  float(image_matrix[1]) / scale_factor, scale_factor]
-
-b = pinhole_model([8, 7, 10], 50)
-
-print(b[0], b[1], b[2])
-'''
-# 3. image to sensor coordinates -> (x_sensor, y_sensor)
-'''
-def Trans_image_to_sensor(x_image, y_image, S_x, S_y, theta, tx_sensor, ty_sensor):
-    A= np.array([[S_x, -S_x / np.tan(theta), -S_x * (tx_sensor - ty_sensor / np.tan(theta))], [0, S_y / np.sin(theta), - S_y * ty_sensor / np.sin(theta)], [0, 0, 1]])
-    Image_coordinates = np.array([[x_image], [y_image], [1]])
-    sensor_matrix = A.dot(Image_coordinates)
-    return float(sensor_matrix[0]), float(sensor_matrix[1])
-
-c = Trans_image_to_sensor(b[0], b[1], 1, 1, np.pi/2, 1, 1)
-print(c)
-'''
 # 4. projection model: world to sensor coordinates -> (scale_factor, x_sensor, y_sensor)
 '''
 def projection_model(x_world, y_world, z_world, R11 ,R12 ,R13 ,R21 ,R22 ,R23 ,R31 ,R32 ,R33 , tx, ty, tz, S_x, S_y, theta, tx_sensor, ty_sensor, image_distance):

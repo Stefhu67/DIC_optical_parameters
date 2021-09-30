@@ -4,7 +4,23 @@ import argparse
 deck = Deck('./deck.yaml')
 Yaml_parameters = deck.doc
 
-Lens_parameters = Yaml_parameters['Lens_data']
+print(deck.Object_size)
+print(deck.angle_of_view_x)
+print(deck.angle_of_view_y)
+
+test1 = Optical_parameter(deck.focal,deck.f_number,deck.object_distance, deck.sensor_size, deck.confusion_circle)
+print(test1.aov_function())
+print(test1.Depth_Of_Field())
+
+test2 = Inverse_optical_parameter(deck.angle_of_view, deck.first_plane, deck.second_plane, deck.sensor_size, deck.confusion_circle)
+print(test2.focal_function())
+print(test2.F_number())
+
+test3 = Pinhole_system(deck.object_position,deck.focal,deck.Scale_pixel_unit,deck.t_sensor)
+print(test3.pinhole_model())
+print(test3.Trans_image_to_sensor())
+
+'''Lens_parameters = Yaml_parameters['Lens_data']
 Camera_parameters = Yaml_parameters['Camera_data']
 Geometrical_parameters = Yaml_parameters['Geometrical_data']
 Object_parameters = Yaml_parameters['Object_data']
@@ -27,18 +43,7 @@ second_plane = float(Geometrical_parameters['second_sharp_plane_mm'])
 
 object_position = Object_parameters['Object_position']
 angle_of_view = np.degrees(2*np.arctan(float(object_position[0])/float(object_position[2])))
-
-test1 = Optical_parameter(focal,f_number,object_distance, sensor_size, confusion_circle)
-print(test1.aov_function())
-print(test1.Depth_Of_Field())
-
-test2 = Inverse_optical_parameter(angle_of_view, first_plane, second_plane, sensor_size, confusion_circle)
-print(test2.focal_function())
-print(test2.F_number())
-
-test3 = Pinhole_system(object_position,focal,Scale_pixel_unit,t_sensor)
-print(test3.pinhole_model())
-print(test3.Trans_image_to_sensor())
+'''
 
 
 '''if __name__ == "__main__":

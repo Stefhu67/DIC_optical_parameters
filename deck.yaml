@@ -1,3 +1,5 @@
+#Grasshopper 3 cameras
+
 Lens_data:
   focal_mm: 50
   f_number: 20
@@ -16,3 +18,4 @@ Camera_data:
 
 Object_data:
   Object_position: [66, 66, 1000]
+  Object_size_mm: [20, 25]

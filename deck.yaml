@@ -3,19 +3,19 @@
 Lens_data:
   focal_mm: 50
   f_number: 20
-  object_distance_mm: 1000
+
+Camera_data:
+  sensor_size_mm: [6.6, 8.8]
+  resolution: [2048, 2448]
+  confusion_circle_mm: 0.03
+
+Object_data:
+  Object_position: [0, 66, 1000]
+  Object_size_mm: [20, 25]
+  Object_depth_mm: 30
 
 Geometrical_data:
   angle_of_view_deg: 7.55
   object_distance_mm: 1000
   first_sharp_plane_mm: 806.45
   second_sharp_plane_mm: 1315.79
-
-Camera_data:
-  sensor_size_mm: [6.6, 8.8]
-  confusion_circle_mm: 0.03
-  resolution: [2048, 2448]
-
-Object_data:
-  Object_position: [66, 66, 1000]
-  Object_size_mm: [20, 25]
